@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Home | Demo 1 - AJAX Filtering";
+}
+
+<p>
+    <a data-ajax="true"
+        data-ajax-update="#target"
+        data-ajex-loading="#loader"
+    href="?">All</a>
+
+
+    @foreach (var p in ViewBag.Programs)
+    {
+        <text>|</text>
+        <a data-ajax="true"
+           data-ajax-update="#target"
+           data-ajex-loading="#loader"
+           href="?programId=@p.Id">@p.Id</a>
+    }
+
+    <img src="/images/loader.gif" id="loader" style="display: none">
+</p>
+
+<div id="target">
+    <partial name="_A" />
+</div>

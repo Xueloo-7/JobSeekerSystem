@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Student>
+
+@{
+    string[] fields = ["Id", "Name", "Gender", "Program"];
+}
+
+<p>
+    @Model.Count() record(s)
+    <img src="/images/loader.gif" id="loader" style="display: none">
+</p>
+
+<table class="table">
+    <tr>
+        @foreach (var f in fields)
+        {
+            string d = "asc";
+            string c = "";
+
+            if (f == ViewBag.Sort)
+            {
+                d = ViewBag.Dir == "des" ? "asc" : "des";
+                c = ViewBag.Dir;
+            }
+
+            <th>
+                @* TODO *@
+
+                <a data-ajax="true"
+                   data-ajax-update="#target"
+                   data-ajex-loading="#loader"
+                   href="?sort=@f&dir=@d" class="@c">@f</a>
+            </th>
+        }
+        <th></th>
+    </tr>
+
+    @foreach (var s in Model)
+    {
+        <tr>
+            <td>@s.Id</td>
+            <td>@s.Name</td>
+            <td>@s.Gender</td>
+            <td>@s.ProgramId</td>
+            <td>
+                <button data-get="/Home/Detail/@s.Id">Detail</button>
+            </td>
+        </tr>
+    }
+</table>

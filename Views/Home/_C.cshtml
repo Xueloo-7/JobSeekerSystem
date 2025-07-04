@@ -1,0 +1,55 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model IPagedList<Student>
+
+<p>
+    @Model.Count() of @Model.TotalItemCount record(s) |
+    Page @Model.PageNumber of @Model.PageCount
+    <img src="/images/loader.gif" id="loader" style="display: none">
+</p>
+
+<table class="table">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>Program</th>
+        <th></th>
+    </tr>
+
+    @foreach (var s in Model)
+    {
+        <tr>
+            <td>@s.Id</td>
+            <td>@s.Name</td>
+            <td>@s.Gender</td>
+            <td>@s.ProgramId</td>
+            <td>
+                <button data-get="/Home/Detail/@s.Id">Detail</button>
+            </td>
+        </tr>
+    }
+</table>
+
+@{
+    var options = PagedListRenderOptions.ClassicPlusFirstAndLast;
+    options.LinkToFirstPageFormat    = "First";
+    options.LinkToLastPageFormat     = "Last";
+    options.LinkToPreviousPageFormat = "Previous";
+    options.LinkToNextPageFormat     = "Next";
+
+    // TODO
+    var ajaxOptions = new AjaxOptions
+            {
+                HttpMethod = "GET",
+                UpdateTargetId = "target",
+                LoadingElementId = "#loader",
+            };
+}
+
+@Html.PagedListPager(
+    Model,
+    p => $"?page={p}",
+    // TODO
+    PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(options, ajaxOptions)
+)
