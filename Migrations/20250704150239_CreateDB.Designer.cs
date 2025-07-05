@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JobSeekerSystem.Migrations
 {
-    [DbContext(typeof(DB))]
+    [DbContext(typeof(JobSeeker_DB))]
     [Migration("20250704150239_CreateDB")]
     partial class CreateDB
     {
