@@ -5,9 +5,9 @@ namespace JobSeekerSystem.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly DB db;
+    private readonly JobSeeker_DB db;
 
-    public HomeController(DB db)
+    public HomeController(JobSeeker_DB db)
     {
         this.db = db;
     }

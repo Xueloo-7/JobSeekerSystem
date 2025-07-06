@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // 数据库连接（LocalDB）
-builder.Services.AddSqlServer<DB>($@"
+builder.Services.AddSqlServer<JobSeeker_DB>($@"
     Data Source=(LocalDB)\MSSQLLocalDB;
     AttachDbFilename={builder.Environment.ContentRootPath}\DB.mdf;
 ");

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JobSeekerSystem.Migrations
 {
-    [DbContext(typeof(DB))]
+    [DbContext(typeof(JobSeeker_DB))]
     partial class DBModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
