@@ -9,6 +9,10 @@ public class JobSeeker_DB : DbContext // this class is used for create a databas
 {
     public JobSeeker_DB(DbContextOptions options) : base(options) { }
 
+    // DbSet
+    public DbSet<Program> Programs { get; set; }
+    public DbSet<Student> Students { get; set; }
+
     // ================================JobSeeker=================================
     public DbSet<User> Users { get; set; }
     public DbSet<JobSeeker> JobSeekers { get; set; }
@@ -23,6 +27,36 @@ public class JobSeeker_DB : DbContext // this class is used for create a databas
 
 
 }
+
+public class Program
+{
+    // Column
+    [Key, MaxLength(3)]
+    public string Id { get; set; }
+    [MaxLength(100)]
+    public string Name { get; set; }
+
+    // Navigation
+    public List<Student> Students { get; set; } = [];
+}
+
+public class Student
+{
+    // Column
+    [Key, MaxLength(10)]
+    public string Id { get; set; }
+    [MaxLength(100)]
+    public string Name { get; set; }
+    [MaxLength(1)]
+    public string Gender { get; set; }
+
+    // FK
+    public string ProgramId { get; set; }
+
+    // Navigation
+    public Program Program { get; set; }
+}
+
 
 // ============================ JobSeeker =================================
 
@@ -123,44 +157,39 @@ public class JobSeekerExperience
 
     //FK
     [Required]
-    public int JobSeekerId { get; set; }
+    public string JobSeekerId { get; set; }
     public JobSeeker JobSeeker { get; set; } // one to many relationship with JobSeeker
 }
 
 public class Classification
 {
-    [Key, MaxLength(6)] // PK
+    [Key, MaxLength(6)]
     [Required]
     public string Id { get; set; }
 
-    [MaxLength(100)] 
+    [MaxLength(100)]
     [Required]
     public string Name { get; set; }
 
-    //FK
-    [Required]
-    public string JobSeekerId { get; set; }
-    [Required]
-    public string SubClassificationId { get; set; } // FK to SubClassification
-
-    public JobSeeker Jobseeker { get; set; }
-    public SubClassification SubClassification { get; set; } // one to many relationship with SubClassification
+    // 一个 Classification 拥有多个 SubClassification
+    public List<SubClassification> SubClassifications { get; set; } = [];
 }
 
 public class SubClassification
 {
-    [Key, MaxLength(6)] // PK
+    [Key, MaxLength(6)]
     [Required]
     public string Id { get; set; }
 
     [MaxLength(100)]
     public string Name { get; set; }
 
-    // FK
-    public string JobSeekerId { get; set; }
-    public JobSeeker JobSeeker { get; set; } // one to many relationship with JobSeeker
-    public List<Classification> Classifications { get; set; } = []; // one to many relationship with Classification
+    // 外键指向 Classification
+    [Required]
+    public string ClassificationId { get; set; }
+    public Classification Classification { get; set; }
 }
+
 
 public class Resume
 {
@@ -180,6 +209,10 @@ public class Resume
 
 public class Resume_Skill
 {
+    [Key, MaxLength(6)] // PK
+    [Required]
+    public string Id { get; set; }
+
     [Required] // FK
     public string ResumeId { get; set; }
     [Required] // FK
